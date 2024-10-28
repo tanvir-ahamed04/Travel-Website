@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <link rel="icon" href="{{ url_for('static', filename= 'img/icon.png') }}" type="image/png">
+        <title>Travel Website</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+<body>
+    <!-- Loading Page -->
+<div class="loading-page" id="loading-page">
+    <div class="counter">
+        <h1 id="loading-percentage">0%</h1>
+        <p class="abs">Loading</p>
+        
+        <hr>
+    </div>
+  </div>
+  
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="{{ url_for('index') }}"><span>Ex</span><span class="logo-highlight">plore</span></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('about')}}">About</a></li>
+                <li><a href="{{ url_for('destinations')}}">Destinations</a></li>
+                
+                <li><a href="{{ url_for('new_post') }}">Posted Blog</a></li>
+        {% if current_user.is_admin %}
+            <li><a href="{{ url_for('post_blog') }}">Create Blog</a></li>  <!-- Only admins see this link -->
+        {% endif %}
+        {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('profile') }}">Profile</a></li>
+        {% else %}
+            <li><a href="{{ url_for('register') }}">LogIn/SignUp</a></li>
+        {% endif %}
+            </ul>
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+            </div>
+        </nav>
+        
+        
+    </header>
+    {% if session.success_message %}
+    <div class="msg-area-suc" id="success-message" style="display: block;">
+        {{ session.success_message }}
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    {{ session.pop('success_message', None) }}  <!-- Clear the message from the session -->
+{% endif %}
+
+    <section class="post-list">
+    {% if posts %}
+        {% for post in posts %}
+        <dev class="post-conten">
+        <dev>
+            <h2>{{ post.title }}</h2>
+            <p>Written by <span class="logo-highlight"> {{ post.author.username }} </span></p>  <!-- Title displayed without a link -->
+            <p class="post-discribe">{{ post.content }}</p>
+        
+        </dev>
+        <dev>
+            {% if post.image_path %}
+                <img class="post-image" src="{{ url_for('static', filename=post.image_path) }}" alt="Post Image">
+            {% endif %}
+        
+            
+        </dev>
+        
+        </dev>
+        <dev class="like-cmt-box-flex">
+            <div>
+        <dev class="like-aria">
+            <button class="like-btn" onclick="toggleLike(this)">
+                <span class="like-icon">&#x2764;</span>
+                <span class="like-count">0</span> Likes
+            </button>
+        </div>
+            <div class="comment-area">
+                <form id="commentForm" onsubmit="submitComment(event)">
+                    <textarea id="commentText" required placeholder="Add a comment..."></textarea>
+                    <button type="submit" class="comment-btn">Comment</button>
+                </form>
+                <div id="commentsList"></div>
+            </div>
+        </dev>
+            
+    </dev>
+        <div class="dashed-line"></div>
+
+        {% endfor %}
+
+    {% else %}
+        <p>No posts available.</p>
+    {% endif %}
+</section>
+<div class="div-top">
+    <a href="#" class="top">Back to Top &#8593;</a>
+</div>
+    <script>
+        function showMessage() {
+            const message = document.getElementById('success-message');
+            if (message) {
+                // After 10 seconds, fade out the message
+                setTimeout(() => {
+                    message.classList.add('hide'); // Add the hide class to fade out
+    
+                    // Remove the message from the DOM after fade out
+                    setTimeout(() => {
+                        message.style.display = 'none'; // Hide the message completely
+                        message.classList.remove('hide'); // Reset the class for future use
+                    }, 500); // Match the duration of the CSS transition
+                }, 10000); // 10 seconds
+            }
+        }
+    
+        // Call the function when the page loads
+        window.onload = showMessage;
+    </script>
+    
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='like_btn.js') }}"></script>
+    
+  <script>
+    // Simulate loading progress
+let loading = 0;
+const loadingPercentage = document.getElementById('loading-percentage');
+const loadingPage = document.getElementById('loading-page');
+const mainContent = document.getElementById('main-content');
+
+const loadingInterval = setInterval(() => {
+    if (loading < 100) {
+        loading += 25; // Increment loading
+        loadingPercentage.textContent = loading + '%';
+    } else {
+        clearInterval(loadingInterval);
+        loadingPage.style.display = 'none'; // Hide loading page
+        mainContent.style.display = 'block'; // Show main content
+    }
+}, 500); // Adjust the interval as needed
+</script>
+</body>
+</html>

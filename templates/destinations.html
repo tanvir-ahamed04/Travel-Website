@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="icon" href="{{ url_for('static', filename= 'img/icon.png') }}" type="image/png">
+    <title>Travel Website</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>  -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script><!-- Include Typed.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=YourFontName:wght@300&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+  <!-- Loading Page -->
+<div class="loading-page" id="loading-page">
+  <div class="counter">
+      <h1 id="loading-percentage">0%</h1>
+      <p class="abs">Loading</p>
+      
+      <hr>
+  </div>
+</div>
+
+
+<!-- Navigation Bar -->
+<header>
+    <nav>
+        <div class="logo">
+            <a href="{{ url_for('index') }}"><span>Ex</span><span class="logo-highlight">plore</span></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('about')}}">About</a></li>
+            <li><a href="#">Destinations</a></li>
+            
+            <li><a href="{{ url_for('new_post') }}">Posted Blog</a></li>
+    {% if current_user.is_admin %}
+        <li><a href="{{ url_for('post_blog') }}">Create Blog</a></li>  <!-- Only admins see this link -->
+    {% endif %}
+    {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('profile') }}">Profile</a></li>
+    {% else %}
+        <li><a href="{{ url_for('register') }}">LogIn/SignUp</a></li>
+    {% endif %}
+        </ul>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+</header>
+<section>
+
+    <section class="body-destination">
+        <section class="destination-item-flex">
+
+        <div class="desti-text">
+            <h1>Discover Your Next <span class="logo-highlight"> Adventure</span></h1>
+            <div class="typed-text-container-desti"><h2>W</h2><p class="typed-text-container-desti-p">elcome to our Destination page, where your journey begins! Explore a curated selection of breathtaking locations that promise unforgettable experiences. From the vibrant streets of historic cities to the serene beauty of nature's wonders, each destination offers a unique blend of culture, adventure, and relaxation. Whether you seek thrilling activities, culinary delights, or tranquil escapes, find inspiration for your next getaway here. Let us guide you to your dream destination!</p></div>
+        </div>
+        <div>
+            <div>
+        <div class="card-hover">
+          <div class="card-hover__content">
+            <h3 class="card-hover__title">
+              Make your <span>choice</span> right now!
+            </h3>
+            <p class="card-hover__text">Explore a world of possibilities and find the perfect destination that resonates with your adventurous spirit</p>
+            <a href="{{ url_for('about') }}" class="card-hover__link">
+              <span>Contract Me</span>
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>        
+            </a>
+          </div>
+          <div class="card-hover__extra">
+            <h4>Learn <span>now</span> and get <span>40%</span> discount!</h4>
+          </div>
+        </div>
+    </div>
+    </div>
+        </section>
+    </section>
+</section>
+
+<!------grid-->
+<section class="picture-grid-desti">
+    <h2 class="grid-itm-txt">Endless Journeys: <span class="logo-highlight"> Travel Beyond Borders </span></h2>
+    <div class="grid-wrapper">
+        <div>
+            <img class="img-destination" src="https://images.unsplash.com/photo-1541845157-a6d2d100c931?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" alt="" />
+        </div>
+        <div>
+            <img class="img-destination" src="https://images.unsplash.com/photo-1588282322673-c31965a75c3e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1351&amp;q=80" alt="" />
+        </div>
+        <div class="tall">
+            <img class="img-destination" src="https://images.unsplash.com/photo-1588117472013-59bb13edafec?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60" alt="">
+        </div>
+        <div class="wide">
+            <img class="img-destination" src="https://images.unsplash.com/photo-1587588354456-ae376af71a25?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="" />
+        </div>
+        <div>
+            <img class="img-destination" src=" https://images.unsplash.com/photo-1558980663-3685c1d673c4?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1000&amp;q=60" alt="" />
+        </div>
+        <div class="tall">
+            <img src="https://images.unsplash.com/photo-1588499756884-d72584d84df5?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=2134&amp;q=80" alt="" />
+        </div>
+        <div class="big">
+            <img class="img-destination" src="https://images.unsplash.com/photo-1588492885706-b8917f06df77?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1951&amp;q=80" alt="" />
+        </div>
+        <div>
+            <img class="img-destination" src="https://images.unsplash.com/photo-1588247866001-68fa8c438dd7?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=564&amp;q=80" alt="" />
+        </div>
+        <div class="wide">
+            <img class="img-destination" src="https://images.unsplash.com/photo-1586521995568-39abaa0c2311?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" alt="" />
+        </div>
+        <div class="big">
+            <img class="img-destination" src="https://images.unsplash.com/photo-1572914857229-37bf6ee8101c?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1951&amp;q=80" alt="" />
+        </div>
+        <div class="tall">
+            <img class="img-destination" src="https://images.unsplash.com/photo-1588453862014-cd1a9ad06a12?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=634&amp;q=80" alt="" />
+        </div>
+        <div>
+            <img class="img-destination" src="https://images.unsplash.com/photo-1588414734732-660b07304ddb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=675&amp;q=80" alt="" />
+        </div>
+        <div>
+            <img class="img-destination" src="https://images.unsplash.com/photo-1588224575346-501f5880ef29?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="" />
+        </div>
+        <div>
+            <img class="img-destination" src="https://images.unsplash.com/photo-1574798834926-b39501d8eda2?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="" />
+        </div>
+        <div>
+            <img class="img-destination" src="https://images.unsplash.com/photo-1547234935-80c7145ec969?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1353&amp;q=80" alt="" />
+        </div>
+        <div class="wide">
+            <img class="img-destination" src="https://images.unsplash.com/photo-1588263823647-ce3546d42bfe?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=675&amp;q=80" alt="" />
+        </div>
+        <div>
+            <img class="img-destination" src="https://images.unsplash.com/photo-1587732608058-5ccfedd3ea63?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" alt="" />
+        </div>
+        <div>
+            <img class="img-destination" src="https://images.unsplash.com/photo-1587897773780-fe72528d5081?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1489&amp;q=80" alt="" />
+        </div>
+        <div class="wide">
+            <img class="img-destination" src="https://images.unsplash.com/photo-1588083949404-c4f1ed1323b3?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1489&amp;q=80" alt="" />
+        </div>
+        <div>
+            <img class="img-destination" src="https://images.unsplash.com/photo-1587572236558-a3751c6d42c0?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" alt="" />
+        </div>
+        <div class="wide">
+            <img class="img-destination" src="https://images.unsplash.com/photo-1583542225715-473a32c9b0ef?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" alt="" />
+        </div>
+        <div class="big">
+            <img class="img-destination" src="https://images.unsplash.com/photo-1527928159272-7d012024eb74?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" alt="" />
+        </div>
+        <div>
+            <img class="img-destination" src="https://images.unsplash.com/photo-1553984840-b8cbc34f5215?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" alt="" />
+        </div>
+        <div>
+            <img class="img-destination" src="https://images.unsplash.com/photo-1433446787703-42d5bf446876?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1351&amp;q=80" alt="" />
+        </div>
+        <div class="big">
+            <img class="img-destination" src="https://images.unsplash.com/photo-1541187714594-731deadcd16a?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="" />
+        </div>
+        <div class="tall">
+            <img class="img-destination" src="https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=634&amp;q=80" alt="" />
+        </div>
+        <div>
+            <img class="img-destination" src="https://images.unsplash.com/photo-1421930866250-aa0594cea05c?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1355&amp;q=80" alt="" />
+        </div>
+        <div>
+            <img class="img-destination" src="https://images.unsplash.com/photo-1493306454986-c8877a09cbeb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1381&amp;q=80" alt="" />
+        </div>
+        <div class="wide">
+            <img class="img-destination" src="https://images.unsplash.com/photo-1536466528142-f752ae7bdd0c?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" alt="" />
+        </div>
+    </div>
+</section>
+
+<section class="desti-contract">
+    <dev class="contract-us-page">
+        <div class="landing_page">
+            <div class="responsive-container-block big-container">
+              <img class="bg-img" id="iq5bf" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/clothes-bg.png">
+              <div class="responsive-container-block container">
+                <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12 left-one">
+                  <div class="content-box">
+                    <p class="text-blk section-head">
+                     <span class="logo-highlight">Contract me</span> for you travel destinations
+                    </p>
+                    <p class="text-blk section-subhead">
+                      We are dedicated to helping you explore the world with ease. Our mission is to simplify your travel experience, providing you with valuable insights, tips, and resources to make every journey unforgettable. Join us as we guide you to discover new destinations and create lasting memories. 
+                    </p>
+                    <div class="icons-container">
+                      <a class="share-icon" href="https://x.com/Tanvir_Alif20">
+                        <img class="img" src="https://workik-widget-assets.s3.amazonaws.com/Footer1-83/v1/images/Icon-twitter.png">
+                      </a>
+                      <a class="share-icon" href="https://www.facebook.com/tanvir.ahamed04">
+                        <img class="img" src="https://workik-widget-assets.s3.amazonaws.com/Footer1-83/v1/images/Icon-facebook.png">
+                      </a>
+                      <a class="share-icon" href="https://www.instagram.com/tanvir.ahamed02">
+                        <img class="img" src="https://workik-widget-assets.s3.amazonaws.com/Footer1-83/v1/images/Icon-instagram.png">
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="responsive-cell-block wk-ipadp-6 wk-tab-12 wk-mobile-12 wk-desk-6 right-one" id="i1zj">
+                  <form class="form-box" method="POST" action="{{ url_for('submit_message') }}">
+                    <div class="container-block form-wrapper">
+                      <p class="text-blk contactus-head">
+                        <a class="link" href="">
+                        </a>
+                        Get a quote
+                      </p>
+                      <p class="text-blk contactus-subhead">
+                        We will get back to you in 24 hours
+                      </p>
+                      <div class="responsive-container-block">
+                        <div class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12" id="i10mt-7">
+                          <input class="input" id="ijowk-7" name="FirstName" placeholder="First Name">
+                        </div>
+                        <div class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12" id="i1ro7">
+                          <input class="input" id="indfi-5" name="Last Name" placeholder="Last Name">
+                        </div>
+                        <div class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-6 wk-ipadp-6 emial" id="ityct">
+                          <input class="input" id="ipmgh-7" name="Email" placeholder="Email">
+                        </div>
+                        <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
+                          <input class="input" id="imgis-6" name="PhoneNumber" placeholder="Phone Number">
+                        </div>
+                        <div class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12" id="i634i-7">
+                          <textarea aria-placeholder="Type message here" class="textinput" id="i5vyy-7" placeholder="Type message here" name="message"></textarea>
+                        </div>
+                      </div>
+                      <button class="submit-btn">
+                        Get quote
+                      </button>
+                      {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </dev>
+</section>
+
+
+<script>
+  // Simulate loading progress
+let loading = 0;
+const loadingPercentage = document.getElementById('loading-percentage');
+const loadingPage = document.getElementById('loading-page');
+const mainContent = document.getElementById('main-content');
+
+const loadingInterval = setInterval(() => {
+  if (loading < 100) {
+      loading += 25; // Increment loading
+      loadingPercentage.textContent = loading + '%';
+  } else {
+      clearInterval(loadingInterval);
+      loadingPage.style.display = 'none'; // Hide loading page
+      mainContent.style.display = 'block'; // Show main content
+  }
+}, 500); // Adjust the interval as needed
+</script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

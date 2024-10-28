@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="icon" href="{{ url_for('static', filename= 'img/icon.png') }}" type="image/png">
+    <title>Travel Website</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>  -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script><!-- Include Typed.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=YourFontName:wght@300&display=swap" rel="stylesheet">
+
+
+</head>
+<body class="over-profile">
+    <!-- Loading Page -->
+<div class="loading-page" id="loading-page">
+    <div class="counter">
+        <h1 id="loading-percentage">0%</h1>
+        <p class="abs">Loading</p>
+        
+        <hr>
+    </div>
+  </div>
+  
+    <section>
+        <div class="logo profile-logo">
+            <a href="{{ url_for('index') }}"><span>Ex</span><span class="logo-highlight">plore</span></a>
+        </div>
+        <nav>
+            
+                <div class="profile-dev-together-two">
+
+                    <div class="profile-nev">
+                        <ul >
+                            <li class="profile-color-place-gap"><a href="{{ url_for('index') }}">Home</a></li>
+                            <li><a href="{{ url_for('about') }}">About</a></li>
+                            <li><a href="{{ url_for('destinations')}}">Destinations</a></li>
+                            <li><a href="{{ url_for('new_post') }}">Posted Blog</a></li>
+                    {% if current_user.is_admin %}
+                        <li><a href="{{ url_for('post_blog') }}">Create Blog</a></li>                       
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('register') }}">LogIn/SignUp</a></li>
+                    {% endif %}
+                        </ul>
+                    </div>
+
+
+                    <div class="aria-container-control">
+                        <h1><span class="welcome">Hey, Welcome To Your Profile - {{ current_user.username }}</span></h1>
+                        <h2>Update Profile</h2>
+
+<!-- Change Username Form -->
+<form method="POST" action="{{ url_for('change_username') }}">
+    <label for="new_username">New Username:</label>
+    <input type="text" id="new_username" name="new_username" required>
+    <button type="submit">Change Username</button>
+</form><br>
+
+<!-- Change Email Form -->
+<form method="POST" action="{{ url_for('change_email') }}">
+    <label for="new_email">New Email:</label>
+    <input type="email" id="new_email" name="new_email" required>
+    <button type="submit">Change Email</button>
+</form><br>
+
+<!-- Change Password Form -->
+<form method="POST" action="{{ url_for('change_password') }}">
+    <label for="current_password">Current Password:</label>
+    <input type="password" id="current_password" name="current_password" required><br>
+
+    <label for="new_password">New Password:</label>
+    <input type="password" id="new_password" name="new_password" required><br>
+
+    <label for="confirm_new_password">Confirm New Password:</label>
+    <input type="password" id="confirm_new_password" name="confirm_new_password" required>
+
+    <button type="submit">Change Password</button>
+</form>
+
+                    </div>
+                </div>
+        </nav>
+    </section>
+</body>
+
+<script>
+    // Simulate loading progress
+let loading = 0;
+const loadingPercentage = document.getElementById('loading-percentage');
+const loadingPage = document.getElementById('loading-page');
+const mainContent = document.getElementById('main-content');
+
+const loadingInterval = setInterval(() => {
+    if (loading < 100) {
+        loading += 25; // Increment loading
+        loadingPercentage.textContent = loading + '%';
+    } else {
+        clearInterval(loadingInterval);
+        loadingPage.style.display = 'none'; // Hide loading page
+        mainContent.style.display = 'block'; // Show main content
+    }
+}, 500); // Adjust the interval as needed
+</script>
+</html>

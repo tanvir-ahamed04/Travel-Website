@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="icon" href="{{ url_for('static', filename= 'img/icon.png') }}" type="image/png">
+    <title>Travel Website</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>  -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script><!-- Include Typed.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=YourFontName:wght@300&display=swap" rel="stylesheet">
+
+    <style>
+      
+  </style>
+</head>
+<body>
+<!-- Loading Page -->
+<div class="loading-page" id="loading-page">
+  <div class="counter">
+      <h1 id="loading-percentage">0%</h1>
+      <p class="abs">Loading</p>
+      
+      <hr>
+  </div>
+</div>
+
+
+<!-- Navigation Bar -->
+<!-- Navigation Bar -->
+<header>
+    <nav>
+        <div class="logo">
+            <a href="{{ url_for('index') }}"><span>Ex</span><span class="logo-highlight">plore</span></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('about')}}">About</a></li>
+            <li><a href="{{ url_for('destinations')}}">Destinations</a></li>
+            
+            <li><a href="{{ url_for('new_post') }}">Posted Blog</a></li>
+    {% if current_user.is_admin %}
+        <li><a href="{{ url_for('post_blog') }}">Create Blog</a></li>  <!-- Only admins see this link -->
+    {% endif %}
+    {% if current_user.is_authenticated %}
+        <li><span class="welcome">Hey Welcome, {{ current_user.username }}</span></li>
+        <li><a href="{{ url_for('profile') }}">Profile</a></li>
+    {% else %}
+        <li><a href="{{ url_for('register') }}">LogIn/SignUp</a></li>
+    {% endif %}
+        </ul>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+    
+    
+</header>
+
+
+<!-- Hero Section -->
+<section id="hero">
+
+<!-- Rotating Earth -->
+<div id="earth"></div>
+
+    <div>
+        <h1>Lets Ex<span class="logo-highlight">plore</span> the World</h1>
+        <h2>Discover story-worthy travel moments</h2>
+        <h3 class="top-text">From breathtaking landscapes to cultural encounters, every trip is filled with moments worth sharing. Embrace the adventure and let your travels inspire unforgettable stories!</h3>
+    </div>
+    
+</section>
+<div class="typing-container"><span class="typing"></span> <!-- Typing effect will display here -->
+</div>
+
+
+<!-- details about -->
+ <section id="about" class="about">
+    
+        <div >
+    <p class="textp">Plan your t<span class="logo-highlight">rip</span></p>
+    <h2 class="head-text2">Where to next? &nbsp; <a class="btn" href="{{ url_for('new_post') }}">Read Blog</a></h2>
+
+</div>
+<section class="grid-itm-container">
+<div class="container-grid">
+    <img src="{{ url_for('static', filename='img/nanjing.jpg') }}" class="ing-container" alt="" > 
+    <h3>Nanning, China</h3>
+    <a href="{{ url_for('new_post') }}" class="btn">Read more</a>
+</div>
+
+<div class="container-grid">
+    <img src="{{ url_for('static', filename='img/cox-bangladesh.jpg') }}" class="ing-container" alt="" > 
+    <h3>Cox Bazar, Bangladesh</h3>
+    <a href="{{ url_for('new_post') }}" class="btn">Read more</a>
+</div>
+<div class="container-grid">
+    <img src="{{ url_for('static', filename='img/vancouver.jpg') }}" class="ing-container" alt="" > 
+    <h3>Vancouver, Canada</h3>
+    <a href="{{ url_for('new_post') }}" class="btn">Read more</a>
+</div>
+</div>
+ </section>
+
+ </section>
+
+ <!-- video -->
+ <section class="video-section">
+    <div class="video-container">
+        <video autoplay muted loop playsinline>
+            <source class="video" src="https://lonelyplanetstatic.imgix.net/marketing/best-in-travel/2024/video/campaign.mp4" type="video/mp4">
+        </video>
+        <div class="overlay-text">
+            <h3>Best in Travel 20<span class="logo-highlight">24</span></h3>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <h1 class="container-h1">Your Dream Itinerary, Crafted With You</h1>
+<div class="feture-flex">
+    <div class="img-two">
+        <img class="feture-img" src="{{ url_for('static', filename='img/elsewhere.jpg') }}" alt="">
+        <img class="feture-img" src="{{ url_for('static', filename='img/mountain.jpg') }}" alt="">
+        
+    </div>
+    
+    <div class="feture-flex2">
+    <div class="toggle-section">
+        <div class="toggle" id="howItWorksToggle">How does it<span class="logo-highlight"> work?</span></div>
+        <div class="content" id="howItWorksContent">Make a trip request, connect with a local expert, and sit back while our experts craft a custom itinerary based on expertise, exclusivity, and ease. It’s a trip you couldn’t plan yourself, all with 24/7 on-the-ground support.</div>
+    </div>
+
+    <div class="toggle-section">
+        <div class="toggle" id="localExpertsToggle">Who are our local<span class="logo-highlight"> experts?</span></div>
+        <div class="content" id="localExpertsContent">Make a trip request, connect with a local expert, and sit back while our experts craft a custom itinerary based on expertise, exclusivity, and ease. It’s a trip you couldn’t plan yourself, all with 24/7 on-the-ground support.</div>
+    </div>
+    
+
+    <div class="toggle-section">
+        <div class="toggle" id="whatsIncludedToggle">What’s <span class="logo-highlight">included?</span> </div>
+        <div class="content" id="whatsIncludedContent"><i class="fa-solid fa-house"> </i> &nbsp;Accommodation
+             <br><i class="fa-regular fa-star">  </i> &nbsp;Exclusive experiences
+              <br><i class="fa-brands fa-cc-stripe"> </i>&nbsp; On-trip concierge services <br>
+              <i class="fa-solid fa-car"></i>  &nbsp;On-the-ground transportation <br>
+              </div>
+    </div>
+    </div>
+</div>
+</div>
+
+<!---about section ``````````-->
+<section>
+    <div class="responsive-container-block bigContainer">
+        <div class="responsive-container-block Container">
+          <div class="responsive-container-block leftSide">
+            <p class="text-blk heading">
+              About Ex<span class="logo-highlight">plore</span>
+            </p>
+            <p class="text-blk subHeading">
+                Welcome to Ex<span class="logo-highlight">plore</span>, your go-to destination for exploring the world’s most beautiful places. Our mission is to inspire travelers to discover new horizons, experience diverse cultures, and create unforgettable memories. Whether you're planning your next adventure or looking for travel tips, we provide expert guides, captivating stories, and up-to-date information to make your journey extraordinary.<br><br>
+                
+                Join us in exploring the world, one destination at a time!
+            </p>
+          </div>
+          <div class="responsive-container-block rightSide">
+            <img class="number1img" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/ET32.jpg">
+            <img class="number2img" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/d14.png">
+            <img class="number3img" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/b245.png">
+            <img class="number5img" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Customer supports.png">
+            <img class="number7img" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/d51.png">
+            <img class="number6img" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/d12.png">
+          </div>
+        </div>
+      </div>
+</section>
+
+<!-----footer------------>
+
+<footer class="footer">
+    <div class="footer__parralax">
+      <div class="footer__parralax-trees"></div>
+      <div class="footer__parralax-moto"></div>
+      <div class="footer__parralax-secondplan"></div>
+      <div class="footer__parralax-premierplan"></div>
+      <div class="footer__parralax-voiture"></div>
+    </div>
+    <div class="container">
+      <div class="footer__columns">
+        <div class="footer__col">
+          <h3 class="footer__col-title">
+            <i data-feather="shopping-bag"></i> <span>Devoloper</span></h3>
+          <nav class="footer__nav">
+            <ul class="footer__nav-list">
+              <li class="footer__nav-item">
+                <span class="footer__nav-link">
+                  Tanvir Ahamed
+                </span>
+              </li>
+              <li class="footer__nav-item">
+                <span class="footer__nav-link">
+                  Nanjing Tech University
+                </span>
+              </li>
+              <li class="footer__nav-item">
+                <span class="footer__nav-link">
+                  Computer Science
+                <span>
+              </li>
+             
+            </ul>
+          </nav>
+        </div>
+        <div class="footer__col">
+          <h3 class="footer__col-title">
+            <i data-feather="share-2"></i> <span>Social Contact</span></h3>
+          <nav class="footer__nav">
+            <ul class="footer__nav-list">
+              <li class="footer__nav-item">
+                <a href="https://www.facebook.com/tanvir.ahamed04" class="footer__nav-link">
+                  <i data-feather="facebook"></i><span>Facebook</span>
+                  
+                </a>
+              </li>
+              <li class="footer__nav-item">
+                <a href="https://www.instagram.com/tanvir.ahamed02" class="footer__nav-link">
+                  <i data-feather="instagram"></i><span>Instagram</span>
+                  
+                </a>
+              </li>
+
+              <li class="footer__nav-item">
+                <a href="https://github.com/tanvir-ahamed04" class="footer__nav-link">
+                  <i data-feather="instagram"></i><span>Git-hub</span>
+                  
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="footer__col">
+          <h3 class="footer__col-title">
+            <i data-feather="send"></i> <span>Contact</span></h3>
+          <nav class="footer__nav">
+            <ul class="footer__nav-list">
+              <li class="footer__nav-item">
+                <a href="mailto:tanvirahamed86669@gmail.com" class="footer__nav-link">
+                  tanvirahamed86669@gmail.com
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+        <div class="footer__copyrights">
+          <p>Copy Right <a href="https://github.com/tanvir-ahamed04" target="_blank">@Tanvir Ahamed(Git-hub)</a></p>
+        </div>
+    </div>
+  </footer>
+
+
+
+
+  <script>
+    // Simulate loading progress
+let loading = 0;
+const loadingPercentage = document.getElementById('loading-percentage');
+const loadingPage = document.getElementById('loading-page');
+const mainContent = document.getElementById('main-content');
+
+const loadingInterval = setInterval(() => {
+    if (loading < 100) {
+        loading += 25; // Increment loading
+        loadingPercentage.textContent = loading + '%';
+    } else {
+        clearInterval(loadingInterval);
+        loadingPage.style.display = 'none'; // Hide loading page
+        mainContent.style.display = 'block'; // Show main content
+    }
+}, 500); // Adjust the interval as needed
+</script>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

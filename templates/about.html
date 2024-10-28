@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" class="page-about">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="icon" href="{{ url_for('static', filename= 'img/icon.png') }}" type="image/png">
+    <title>Travel Website</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>  -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script><!-- Include Typed.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=YourFontName:wght@300&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+    <!-- Loading Page -->
+<div class="loading-page" id="loading-page">
+  <div class="counter">
+      <h1 id="loading-percentage">0%</h1>
+      <p class="abs">Loading</p>
+      
+      <hr>
+  </div>
+</div>
+
+</body>
+<body class="page-about">
+
+
+
+<section class="page-about">
+        <nav class="about-page-logo-nav">
+            <div class="logo">
+                <a href="{{ url_for('index') }}" class="a-about"><span>Ex</span><span class="logo-highlight">plore</span></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}" class="a-about">Home</a></li>
+                <li><a href="{{ url_for('about')}}"class="a-about">About</a></li>
+                <li><a href="{{ url_for('destinations')}}"class="a-about">Destinations</a></li>
+                
+                <li><a href="{{ url_for('new_post') }}"class="a-about">Posted Blog</a></li>
+        {% if current_user.is_admin %}
+            <li><a href="{{ url_for('post_blog') }}"class="a-about">Create Blog</a></li>  <!-- Only admins see this link -->
+        {% endif %}
+        {% if current_user.is_authenticated %}
+            <li><a href="{{ url_for('profile') }}"class="a-about">Profile</a></li>
+        {% else %}
+            <li><a href="{{ url_for('register') }}"class="a-about">LogIn/SignUp</a></li>
+        {% endif %}
+            </ul>
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+            </div>
+        </nav>
+    </dev>
+</section>
+
+<div class="responsive-container-block">
+    
+    <div class="responsive-container-block Container bottomContainer">
+      <div class="ultimateImg">
+        <img class="mainImg" src="https://i.postimg.cc/qvfLSHG8/IMG-2645.jpg">
+        <div class="purpleBox">
+          <p class="purpleText">
+            Embrace the world’s beauty and adventure—travel is the key to discovering not just new places, but also new parts of yourself
+          </p>
+          <img class="stars" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/mp5.svg">
+        </div>
+      </div>
+      <div class="allText bottomText">
+        <p class="text-blk headingText">
+          About Us
+        </p>
+        <p class="text-blk subHeadingText">
+          Explore - Travel 
+        </p>
+        <p class="text-blk description">
+          Welcome to Explore, your ultimate travel companion! We are a passionate team of adventurers, writers, and travel enthusiasts dedicated to inspiring and guiding you on your journeys around the globe.
+
+          At Explore, we believe that travel is not just about the destinations you visit; it's about the experiences you create, the cultures you immerse yourself in, and the memories you cherish. Our mission is to empower travelers like you to discover new horizons and embrace the beauty of our diverse world.
+        
+          
+          Join us as we traverse the globe, share our knowledge, and connect with fellow wanderers. Let us be your go-to resource for everything travel-related, from itineraries and accommodation suggestions to local cuisines and cultural insights.
+          
+          At Explore, every journey is a story waiting to be told.<br><br> So pack your bags, step outside your comfort zone, and let's explore the world together!
+        </p>
+      </div>
+    </div>
+  
+<!-----contract us -->
+<dev class="contract-us-page">
+<div class="landing_page">
+    <div class="responsive-container-block big-container">
+      <img class="bg-img" id="iq5bf" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/clothes-bg.png">
+      <div class="responsive-container-block container">
+        <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12 left-one">
+          <div class="content-box">
+            <p class="text-blk section-head">
+              Contract me for you travel destinations
+            </p>
+            <p class="text-blk section-subhead">
+              We are dedicated to helping you explore the world with ease. Our mission is to simplify your travel experience, providing you with valuable insights, tips, and resources to make every journey unforgettable. Join us as we guide you to discover new destinations and create lasting memories. 
+            </p>
+            <div class="icons-container">
+              <a class="share-icon" href="https://x.com/Tanvir_Alif20">
+                <img class="img" src="https://workik-widget-assets.s3.amazonaws.com/Footer1-83/v1/images/Icon-twitter.png">
+              </a>
+              <a class="share-icon" href="https://www.facebook.com/tanvir.ahamed04">
+                <img class="img" src="https://workik-widget-assets.s3.amazonaws.com/Footer1-83/v1/images/Icon-facebook.png">
+              </a>
+              <a class="share-icon" href="https://www.instagram.com/tanvir.ahamed02">
+                <img class="img" src="https://workik-widget-assets.s3.amazonaws.com/Footer1-83/v1/images/Icon-instagram.png">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="responsive-cell-block wk-ipadp-6 wk-tab-12 wk-mobile-12 wk-desk-6 right-one" id="i1zj">
+          <form class="form-box" method="POST" action="{{ url_for('submit_message') }}">
+            <div class="container-block form-wrapper">
+              <p class="text-blk contactus-head">
+                <a class="link" href="">
+                </a>
+                Get a quote
+              </p>
+              <p class="text-blk contactus-subhead">
+                We will get back to you in 24 hours
+              </p>
+              <div class="responsive-container-block">
+                <div class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12" id="i10mt-7">
+                  <input class="input" id="ijowk-7" name="FirstName" placeholder="First Name">
+                </div>
+                <div class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12" id="i1ro7">
+                  <input class="input" id="indfi-5" name="Last Name" placeholder="Last Name">
+                </div>
+                <div class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-6 wk-ipadp-6 emial" id="ityct">
+                  <input class="input" id="ipmgh-7" name="Email" placeholder="Email">
+                </div>
+                <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
+                  <input class="input" id="imgis-6" name="PhoneNumber" placeholder="Phone Number">
+                </div>
+                <div class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12" id="i634i-7">
+                  <textarea aria-placeholder="Type message here" class="textinput" id="i5vyy-7" placeholder="Type message here" name="message"></textarea>
+                </div>
+              </div>
+              <button class="submit-btn">
+                Get quote
+              </button>
+              {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flashes">
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</dev>
+
+
+
+
+<script id="header">
+  window.addEventListener("scroll", function() {
+      const header = document.querySelector("header");
+      if (window.scrollY > 50) {  // If the scroll position is greater than 50px
+          header.classList.add("scrolled"); // Add the 'scrolled' class
+      } else {
+          header.classList.remove("scrolled"); // Remove the 'scrolled' class
+          header.style.color = ""; // Reset text color
+      }
+  });
+
+  // Simulate loading progress
+let loading = 0;
+const loadingPercentage = document.getElementById('loading-percentage');
+const loadingPage = document.getElementById('loading-page');
+const mainContent = document.getElementById('main-content');
+
+const loadingInterval = setInterval(() => {
+    if (loading < 100) {
+        loading += 25; // Increment loading
+        loadingPercentage.textContent = loading + '%';
+    } else {
+        clearInterval(loadingInterval);
+        loadingPage.style.display = 'none'; // Hide loading page
+        mainContent.style.display = 'block'; // Show main content
+    }
+}, 500); // Adjust the interval as needed
+  </script>
+</body>
+</html>

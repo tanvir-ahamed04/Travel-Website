@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="icon" href="{{ url_for('static', filename= 'img/icon.png') }}" type="image/png">
+  <title>Travel Website</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+
+</head>
+<body>
+  <!-- Loading Page -->
+<div class="loading-page" id="loading-page">
+  <div class="counter">
+      <h1 id="loading-percentage">0%</h1>
+      <p class="abs">Loading...</p>
+      
+      <hr>
+  </div>
+</div>
+
+<nav>
+  <div class="logo">
+    <a href="index.html"><span>Ex</span><span class="logo-highlight">plore</span></a>
+  </div>
+</nav>
+
+<!-- Register form -->
+<section id="registerForm" class="register_form">
+  <form method="POST" action="{{ url_for('register') }}">
+      <input type="text" id="username" class="middle" placeholder="Username" name="username" required>
+      <input type="email" id="email" class="middle" placeholder="Email" name="email" required>
+      <input type="password" id="registerPassword" class="middle" placeholder="Password" name="password" required>
+      <input type="password" id="confirmPassword" class="middle" placeholder="Confirm Password" name="confirmPassword" required>
+      <input type="text" id="otp" class="middle" placeholder="Enter OTP" name="otp"> <!-- OTP field -->
+
+      <!-- Button to send OTP -->
+      <button type="button" id="sendOtpBtn">Send OTP</button>
+
+      <div class="checkbox-container">
+          <input type="checkbox" id="terms" required>
+          <label for="terms" class="terms-label">I agree to the terms and conditions</label>
+      </div>
+      <button type="submit" id="registerButton">Register</button>
+      <a href="{{ url_for('login') }}" id="already_have_account">Already have an account</a>
+  </form>
+</section>
+
+<script>
+  document.getElementById('sendOtpBtn').addEventListener('click', function() {
+    const email = document.getElementById('email').value;
+
+    if (!email) {
+      alert("Please enter an email to send OTP");
+      return;
+    }
+
+    // Send AJAX request to the server to send OTP
+    fetch('/send_otp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: email })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('OTP sent successfully to ' + email);
+      } else {
+        alert('Failed to send OTP. Please try again.');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  });
+</script>
+
+<script>
+  // Simulate loading progress
+let loading = 0;
+const loadingPercentage = document.getElementById('loading-percentage');
+const loadingPage = document.getElementById('loading-page');
+const mainContent = document.getElementById('main-content');
+
+const loadingInterval = setInterval(() => {
+  if (loading < 100) {
+      loading += 25; // Increment loading
+      loadingPercentage.textContent = loading + '%';
+  } else {
+      clearInterval(loadingInterval);
+      loadingPage.style.display = 'none'; // Hide loading page
+      mainContent.style.display = 'block'; // Show main content
+  }
+}, 500); // Adjust the interval as needed
+</script> 
+
+</body>
+</html>

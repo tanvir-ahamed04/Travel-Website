@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="icon" href="{{ url_for('static', filename= 'img/icon.png') }}" type="image/png">
+  <title>Travel Website</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+<body>
+  <!-- Loading Page -->
+<div class="loading-page" id="loading-page">
+  <div class="counter">
+      <h1 id="loading-percentage">0%</h1>
+      <p class="abs">Loading</p>
+      
+      <hr>
+  </div>
+</div>
+
+
+<nav>
+  <div class="logo">
+    <a href="{{ url_for('index') }}"><span>Ex</span><span class="logo-highlight">plore</span></a>
+  </div>
+</nav>
+
+<!-- Log in form -->
+<!-- Log in form -->
+<section id="loginForm" class="log_in_from">
+
+  <form method="POST" action="{{ url_for('login') }}">
+    <input type="text" class="middle" placeholder="User name" required name="username">
+    <input type="text" class="middle" placeholder="Email" required name="email">
+    <input type="password" class="middle" placeholder="Password" required name="password">
+    <button type="submit" id="loginButton">Log in</button>
+    <a href="{{ url_for('register') }}" id="showRegister">Register Here</a>
+    
+    <div class="msg_text"> 
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}</div>
+</form>
+
+</section>
+
+<section>
+ 
+</section>
+
+<script>// Simulate loading progress
+  let loading = 0;
+  const loadingPercentage = document.getElementById('loading-percentage');
+  const loadingPage = document.getElementById('loading-page');
+  const mainContent = document.getElementById('main-content');
+  
+  const loadingInterval = setInterval(() => {
+      if (loading < 100) {
+          loading += 10; // Increment loading
+          loadingPercentage.textContent = loading + '%';
+      } else {
+          clearInterval(loadingInterval);
+          loadingPage.style.display = 'none'; // Hide loading page
+          mainContent.style.display = 'block'; // Show main content
+      }
+  }, 500); // Adjust the interval as needed</script>
+</body>
+</html>
