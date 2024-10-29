@@ -28,13 +28,13 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecretkey'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:new002@localhost:3306/flask_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:your-databasepass'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize Flask-Mail
 # Looking to send emails in production? Check out our Email API/SMTP product!
-app.config['MAIL_SERVER']='sandbox.smtp.mailtrap.io'
-app.config['MAIL_PORT'] = 2525
+app.config['MAIL_SERVER']='your-smtp-server'
+app.config['MAIL_PORT'] = your-port
 app.config['MAIL_USERNAME'] = '6f14520eb561ee'
 app.config['MAIL_PASSWORD'] = 'ca36f8b302bd89'
 app.config['MAIL_USE_TLS'] = True
