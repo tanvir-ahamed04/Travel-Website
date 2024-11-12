@@ -12,39 +12,27 @@ import random
 from flask_wtf import CSRFProtect
 from flask import jsonify
 import logging
+from flask import session
 
 
-
-# Initialize Flask app
-app = Flask(__name__)
-csrf = CSRFProtect(app)
-
-# Load environment variables from .env file
 load_dotenv()
-
-
-
-
 # Initialize Flask app
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'mysecretkey'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:your-databasepass'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Initialize Flask-Mail
-# Looking to send emails in production? Check out our Email API/SMTP product!
-app.config['MAIL_SERVER']='your-smtp-server'
-app.config['MAIL_PORT'] = your-port
+app.secret_key = 'my_secret_key'
+app.config['SECRET_KEY'] = 'mysecretkey'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:new002@localhost:3306/flask_db'
+app.config['MAIL_SERVER']='sandbox.smtp.mailtrap.io'
+app.config['MAIL_PORT'] = 2525
 app.config['MAIL_USERNAME'] = '6f14520eb561ee'
 app.config['MAIL_PASSWORD'] = 'ca36f8b302bd89'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
-# app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
-
+app.config['MAIL_DEFAULT_SENDER'] = '202224405010@njtech.edu.cn'
 mail = Mail(app)
-
 # Store OTP temporarily
 otp_storage = {}
+logging.basicConfig(level=logging.DEBUG)
 
 # Initialize SQLAlchemy
 Base = declarative_base()
@@ -81,23 +69,17 @@ Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-
-class Message(Base):
-    __tablename__ = 'messages'
-    
+class UserMessage(Base):
+    __tablename__ = 'messages'   
     id = Column(Integer, primary_key=True)
     first_name = Column(String(50), nullable=False)
     last_name = Column(String(50), nullable=False)
     email = Column(String(100), nullable=False)
     phone_number = Column(String(20), nullable=True)  # Optional field
     message = Column(Text, nullable=False)
-
 # Create all tables
 Base.metadata.create_all(engine)
-
-
 Base = declarative_base()
-
 class Post(Base):
     __tablename__ = 'posts'
     id = Column(Integer, primary_key=True)
@@ -105,17 +87,12 @@ class Post(Base):
     content = Column(Text, nullable=False)
     likes = Column(Integer, default=0)
     comments = relationship("Comment", back_populates="post")
-
 class Comment(Base):
     __tablename__ = 'comments'
     id = Column(Integer, primary_key=True)
     post_id = Column(Integer, ForeignKey('posts.id'), nullable=False)
     comment = Column(Text, nullable=False)
     post = relationship("Post", back_populates="comments")
-
-
-
-
 @app.route('/submit_message', methods=['POST'])
 def submit_message():
     first_name = request.form['FirstName']
@@ -124,7 +101,7 @@ def submit_message():
     phone_number = request.form['PhoneNumber']
     message = request.form['message']  # Updated to match the textarea name
 
-    new_message = Message(first_name=first_name, last_name=last_name,
+    new_message = UserMessage(first_name=first_name, last_name=last_name,
                           email=email, phone_number=phone_number,
                           message=message)
 
@@ -152,7 +129,7 @@ def load_user(user_id):
     return db_session.get(User, int(user_id))  # Use session.get() for SQLAlchemy 2.0
 
 
-# bug here -------------------------1
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -162,7 +139,32 @@ def index():
 
 
 
+# otp and registation
 
+# otp
+@app.route('/send_otp', methods=['POST'])
+def send_otp():
+    data = request.get_json()
+    email = data.get('email')
+
+    if not email:
+        return {'success': False, 'message': 'Email is required'}, 400
+
+    # Generate OTP
+    generated_otp = str(random.randint(100000, 999999))
+    otp_storage[email] = generated_otp
+
+    # Create message
+    msg = Message('Your OTP for registration', recipients=[email])
+    msg.body = f'Your OTP is {generated_otp}. Please enter this OTP to complete your registration.'
+
+    try:
+        mail.send(msg)
+        return {'success': True, 'message': 'OTP sent successfully'}, 200
+    except Exception as e:
+        print(f"Error sending OTP: {e}")
+        return {'success': False, 'message': 'Failed to send OTP'}, 500
+    
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -208,6 +210,7 @@ def register():
     return render_template('register.html')
 
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -228,7 +231,6 @@ def login():
                 flash('Invalid username or password.', 'danger')
         else:
             flash('Login failed. User not found.', 'danger')
-
     return render_template('login.html')
 
 @app.route('/logout')
@@ -237,6 +239,7 @@ def logout():
     logout_user()
     flash('You have been logged out.', 'success')
     return redirect(url_for('login'))
+
 @app.route('/profile')
 @login_required  # Ensure only logged-in users can access
 def profile():
@@ -284,6 +287,12 @@ def new_post():
 def edit_post(post_id):
     post = db_session.query(BlogPost).get(post_id)
     if request.method == 'POST':
+        if 'delete' in request.form:  # Check if the delete button was pressed
+            db_session.delete(post)
+            db_session.commit()
+            flash('Post deleted!', 'success')
+            return redirect(url_for('new_post'))
+        
         title = request.form['title']
         content = request.form['content']
         
@@ -294,34 +303,19 @@ def edit_post(post_id):
         if img_file:
             # Create a secure filename and save the file
             filename = secure_filename(img_file.filename)
-            image_path = 'uploads/' + filename
+            image_path = 'static/uploads/'  + filename
             img_file.save(image_path)
-
-        # Save the post to the database
-        post = BlogPost(title=title, content=content, image_path=image_path, author=current_user)
-        db_session.add(post)
+        
+        # Update the existing post
+        post.title = title
+        post.content = content
+        post.image_path = image_path if image_path else post.image_path  # Keep the old image if no new one is uploaded
         db_session.commit()
         
-        flash('New post created!', 'success')
-        return redirect(url_for('index'))
-    return render_template('edit_post.html')
+        flash('Post updated!', 'success')
+        return redirect(url_for('new_post'))
 
-
-@app.route('/admin/delete_post/<int:post_id>')
-@login_required
-@admin_required
-def delete_post(post_id):
-    post = db_session.query(BlogPost).get(post_id)
-    db_session.delete(post)
-    db_session.commit()
-    flash('Post deleted successfully.', 'success')
-    return redirect(url_for('index'))
-
-
-
-
-
-
+    return render_template('edit_post.html', post=post)
 
 # for create new post - connect with post_blog.html
 
@@ -331,41 +325,42 @@ def post_blog():
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
-        img_file = request.files.get('img_file')  # Get the uploaded file
-
-        # Define the upload directory
-        upload_directory = 'uploads/'
-        
+        img_file = request.files.get('img_file')  
+        upload_directory = 'static/uploads/'        
         # Create the directory if it doesn't exist
         if not os.path.exists(upload_directory):
             os.makedirs(upload_directory)
-
-        image_path = None  # Initialize image_path
-
+        image_path = None  
         if img_file:
             # Create a secure filename and save the file
             filename = secure_filename(img_file.filename)
             image_path = os.path.join(upload_directory, filename)
             img_file.save(image_path)
-
         # Save the post to the database
         post = BlogPost(title=title, content=content, image_path=image_path, author=current_user)
         db_session.add(post)
         db_session.commit()
-        # Debugging line
-
         flash('Post created successfully!', 'success')
         return redirect(url_for('new_post'))
 
     return render_template('post_blog.html')
 
-
-
-
-
-
-
 # for read admins post and blog - connect with new_post.html user only
+@app.route('/posts', methods=['GET'])
+@login_required
+def get_posts():
+    posts = db_session.query(BlogPost).all()
+    data = [
+        {
+            'id': post.id,
+            'title': post.title,
+            'content': post.content[:300],  # First 200 characters
+            'author': post.author.username,
+            'image_path': post.image_path
+        }
+        for post in posts
+    ]
+    return jsonify(data)
 
 @app.route('/post/<int:post_id>')
 @login_required
@@ -373,34 +368,17 @@ def view_post(post_id):
     post = db_session.query(BlogPost).get(post_id)
     comments = db_session.query(Comment).filter(Comment.post_id == post_id).all()
     if post:
-        return render_template('new_blog.html', post=post, comments=comments)
+        return render_template('new_post.html', post=post, comments=comments)
     return "Post not found", 404
 
 
-
-# otp
-@app.route('/send_otp', methods=['POST'])
-def send_otp():
-    data = request.get_json()
-    email = data.get('email')
-
-    if not email:
-        return {'success': False, 'message': 'Email is required'}, 400
-
-    # Generate OTP
-    generated_otp = str(random.randint(100000, 999999))
-    otp_storage[email] = generated_otp
-
-    # Create message
-    msg = Message('Your OTP for registration', recipients=[email])
-    msg.body = f'Your OTP is {generated_otp}. Please enter this OTP to complete your registration.'
-
-    try:
-        mail.send(msg)
-        return {'success': True, 'message': 'OTP sent successfully'}, 200
-    except Exception as e:
-        print(f"Error sending OTP: {e}")
-        return {'success': False, 'message': 'Failed to send OTP'}, 500
+@app.route('/post/<int:post_id>', methods=['GET'])
+def readmore(post_id):
+    # Fetch the post using the new method
+    post = db_session.get(BlogPost, post_id)
+    if post is None:
+        return "Post not found", 404  # Return a custom message if the post doesn't exist
+    return render_template('readmore.html', post=post)
 
 
 
@@ -472,25 +450,32 @@ def about():
     return render_template('about.html')
 
 
-# like and cmt
-logging.basicConfig(level=logging.DEBUG)
+
 
 @app.route('/toggle_like', methods=['POST'])
 def toggle_like():
-    post_id = request.form.get('post_id')
-    
+    post_id = request.form.get('post_id')  # Retrieve post_id from form data
+
     if post_id is None:
-        app.logger.error("Post ID is required.")
-        return jsonify({'success': False, 'message': 'Post ID is required.'}), 400
+        return jsonify({'success': False, 'message': 'post_id is required.'}), 400
 
-    post = db_session.query(Post).get(post_id)
-    if post:
-        post.likes += 1
-        db_session.commit()
-        return jsonify({'success': True, 'likes': post.likes})
+    try:
+        # Convert post_id to integer
+        post_id = int(post_id)
+        post = db_session.get(Post, post_id)
+        
+        if post:
+            post.likes += 1
+            db_session.commit()
+            return jsonify({'success': True, 'likes': post.likes})
+        
+        return jsonify({'success': False, 'message': 'Post not found.'}), 404
     
-    return jsonify({'success': False, 'message': 'Post not found.'}), 404
+    except ValueError:
+        return jsonify({'success': False, 'message': 'Invalid post ID.'}), 400
 
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
 
 
 @app.route('/add_comment', methods=['POST'])
@@ -501,13 +486,90 @@ def add_comment():
     comment_text = data.get('comment')
 
     if post_id and comment_text:
-        new_comment = Comment(post_id=post_id, comment=comment_text)
-        session.add(new_comment)
-        session.commit()
+        try:
+            post_id = int(post_id)  # Ensure post_id is an integer
+            new_comment = Comment(post_id=post_id, comment=comment_text)
+            db_session.add(new_comment)
+            db_session.commit()
 
-        return jsonify({'success': True, 'comment': comment_text})
+            return jsonify({'success': True, 'comment': comment_text})
+        
+        except Exception as e:
+            return jsonify({'success': False, 'message': str(e)}), 500
     
     return jsonify({'success': False, 'message': 'Invalid input'}), 400
+
+
+
+
+# forgot and reset pass 
+@app.route('/forgot_password', methods=['POST'])
+def forgot_password():
+    data = request.json
+    email = data.get('email')
+
+    # Check if the email exists in the database
+    user = db_session.query(User).filter_by(email=email).first()
+    if user:
+        generated_otp = str(random.randint(100000, 999999))
+        session['otp'] = generated_otp  # Store OTP in session
+        session['otp_email'] = email    # Store email in session
+
+        msg = Message('Your OTP for password reset', recipients=[email])  
+        msg.body = f'Your OTP is {generated_otp}. Please enter this OTP to reset your password.'
+        
+        try:
+            mail.send(msg)
+            flash('OTP sent successfully! Please check your email.', 'success')
+            return jsonify({'success': True})
+        except Exception as e:
+            print(f"Error sending OTP: {e}")
+            flash('Failed to send OTP. Please try again.', 'danger')
+            return jsonify({'success': False}), 500
+    else:
+        flash('Email not found. Please register.', 'danger')
+        return jsonify({'success': False}), 400
+
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_password():
+    if request.method == 'GET':
+        return render_template('reset_password.html')
+
+    email = request.form.get('email')
+    otp = request.form.get('otp')
+    new_password = request.form.get('new_password')
+
+    stored_otp = session.get('otp')
+    stored_email = session.get('otp_email')
+    print(f"Stored OTP in session: {stored_otp}, Provided OTP: {otp}")
+
+    if stored_otp == otp and stored_email == email:
+        hashed_password = generate_password_hash(new_password)
+        user = db_session.query(User).filter_by(email=email).first()
+        if user:
+            user.password = hashed_password
+            try:
+                db_session.commit()
+                session.pop('otp', None)        # Clear OTP from session
+                session.pop('otp_email', None)  # Clear email from session
+                flash('Password reset successfully!', 'success')
+                return redirect(url_for('login'))
+            except Exception as e:
+                db_session.rollback()
+                flash(f'Error updating password: {str(e)}', 'danger')
+                return redirect(url_for('reset_password'))
+        else:
+            flash('User not found.', 'danger')
+            return redirect(url_for('login'))
+    else:
+        flash('Invalid OTP!', 'danger')
+        return redirect(url_for('reset_password'))
+
+
+
+
+
+
 
 
 

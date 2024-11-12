@@ -47,6 +47,10 @@
   </form>
 </section>
 
+
+
+
+
 <script>
   document.getElementById('sendOtpBtn').addEventListener('click', function() {
     const email = document.getElementById('email').value;
@@ -61,6 +65,7 @@
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
+        
       },
       body: JSON.stringify({ email: email })
     })

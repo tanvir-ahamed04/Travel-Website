@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <link rel="icon" href="{{ url_for('static', filename= 'img/icon.png') }}" type="image/png">
+        <title>Travel Website</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+<body>
+    <!-- Loading Page -->
+<div class="loading-page" id="loading-page">
+    <div class="counter">
+        <h1 id="loading-percentage">0%</h1>
+        <p class="abs">Loading</p>
+        
+        <hr>
+    </div>
+  </div>
+  
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="{{ url_for('index') }}"><span>Ex</span><span class="logo-highlight">plore</span></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('about')}}">About</a></li>
+                <li><a href="{{ url_for('destinations')}}">Destinations</a></li>
+                
+                <li><a href="{{ url_for('new_post') }}">Posted Blog</a></li>
+        {% if current_user.is_admin %}
+            <li><a href="{{ url_for('post_blog') }}">Create Blog</a></li>  <!-- Only admins see this link -->
+        {% endif %}
+        {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('profile') }}">Profile</a></li>
+        {% else %}
+            <li><a href="{{ url_for('register') }}">LogIn/SignUp</a></li>
+        {% endif %}
+            </ul>
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+            </div>
+        </nav>
+    </header>
+
+
+    <form method="POST" enctype="multipart/form-data" class="post-blog-form" >
+        <input type="text" name="title" value="{{ post.title }}" required>
+        <textarea name="content" class="post-write-aria" required>{{ post.content }}</textarea>
+        <input type="file" name="img_file">
+        
+        <button class="btn-for-post-creat" type="submit">Update Post</button>
+        <button  class="btn-for-post-creat" type="submit" name="delete" value="true">Delete Post</button>
+    </form>
+
+    
+
+
+    <script>
+        // Simulate loading progress
+    let loading = 0;
+    const loadingPercentage = document.getElementById('loading-percentage');
+    const loadingPage = document.getElementById('loading-page');
+    const mainContent = document.getElementById('main-content');
+    
+    const loadingInterval = setInterval(() => {
+        if (loading < 100) {
+            loading += 25; // Increment loading
+            loadingPercentage.textContent = loading + '%';
+        } else {
+            clearInterval(loadingInterval);
+            loadingPage.style.display = 'none'; // Hide loading page
+            mainContent.style.display = 'block'; // Show main content
+        }
+    }, 500); // Adjust the interval as needed
+    </script>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
