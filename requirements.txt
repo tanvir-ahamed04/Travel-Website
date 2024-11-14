@@ -7,3 +7,7 @@ python-dotenv==0.19.1
 SQLAlchemy==1.4.27
 pymysql==1.0.2
 Werkzeug==2.0.3
+
+
+
+

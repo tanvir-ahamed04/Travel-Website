@@ -134,6 +134,7 @@ h2{
 .typing {
   font-size: 1.5rem; /* Adjust font size as needed */
   color: #000000; /* Change the text color as needed */
+  font-weight: bold;
 }
 .typing .typed-cursor {
   display: inline-block; /* Make sure the typing text is displayed inline */
