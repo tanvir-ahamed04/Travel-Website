@@ -7,13 +7,15 @@
     <link rel="icon" href="{{ url_for('static', filename= 'img/icon.png') }}" type="image/png">
     <title>Travel Website</title>
     <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+     <!-- Font awesome for fa icons -->
+     <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+     <!-- Including styles.css file -->
 </head>
 <body>
     <!-- Loading Page -->
 <div class="loading-page" id="loading-page">
     <div class="counter">
-        <h1 id="loading-percentage">0%</h1>
-        <p class="abs">Loading</p>
+        <h2 class="abs">Loading</h2>
         
         <hr>
     </div>
@@ -53,12 +55,25 @@
         <form action="/post_blog" method="POST" class="post-blog-form" enctype="multipart/form-data">
             <label for="title">Title:</label>
             <input type="text" placeholder="Give a proper title" id="title" name="title" required>
-
-            <label for="img_file">Image File:</label>
-            <input type="file" placeholder="Upload cover size picture" id="img_file" name="img_file">
+           
+           
+            <!-- <input type="file" class="uploader" placeholder="Upload cover size picture" id="img_file" name="img_file"> -->
 
             <label for="content" >Content:</label>
             <textarea id="content" class="post-write-aria" placeholder="Write your blog here..." name="content" required></textarea>
+
+            <label for="img_file" class="file-tag-img-in-creat">Image File:</label>
+            <div class="profile-picture">
+                <h1 class="upload-icon">
+                  <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                </h1>
+                <input
+                  class="file-uploader"
+                  type="file"
+                  onchange="upload()"
+                  accept="image/*"
+                  id="img_file" name="img_file"/>
+              </div>
 
             <button class="btn-for-post-creat" type="submit">Submit</button>
         </form>
@@ -67,7 +82,8 @@
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>
     
-  <script>
+ 
+<script>
     // Simulate loading progress
 let loading = 0;
 const loadingPercentage = document.getElementById('loading-percentage');
@@ -75,8 +91,8 @@ const loadingPage = document.getElementById('loading-page');
 const mainContent = document.getElementById('main-content');
 
 const loadingInterval = setInterval(() => {
-    if (loading < 100) {
-        loading += 25; // Increment loading
+    if (loading < 2) {
+        loading += 1; 
         loadingPercentage.textContent = loading + '%';
     } else {
         clearInterval(loadingInterval);
@@ -85,5 +101,7 @@ const loadingInterval = setInterval(() => {
     }
 }, 500); // Adjust the interval as needed
 </script>
+
+
 </body>
 </html>

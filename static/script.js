@@ -68,10 +68,35 @@ function toggleContent(contentId) {
 }
 
 
-// timer for otp
-
-
-
+// img up design
+// Uploader Function
+function upload() {
+    const fileUploadInput = document.querySelector('.file-uploader');
+    const image = fileUploadInput.files[0]; // Take the first file from the input
+  
+    // Check if the file is an image
+    if (!image.type.includes('image')) {
+      return alert('Only images are allowed!');
+    }
+  
+    // Check if the file size exceeds 10 MB
+    if (image.size > 10_000_000) {
+      return alert('Maximum upload size is 10MB!');
+    }
+  
+    const fileReader = new FileReader();
+  
+    // Read the image file as a Data URL
+    fileReader.readAsDataURL(image);
+  
+    fileReader.onload = (fileReaderEvent) => {
+      // Select the profile picture container
+      const profilePicture = document.querySelector('.profile-picture');
+  
+      // Set the background image using the fileReader result
+      profilePicture.style.backgroundImage = `url(${fileReaderEvent.target.result})`;
+    };
+  }
 
 
 

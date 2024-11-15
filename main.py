@@ -13,6 +13,10 @@ from flask_wtf import CSRFProtect
 from flask import jsonify
 import logging
 from flask import session
+from sqlalchemy import select
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
 
 
 load_dotenv()
@@ -354,7 +358,7 @@ def get_posts():
         {
             'id': post.id,
             'title': post.title,
-            'content': post.content[:300],  # First 200 characters
+            'content': post.content[:700],  
             'author': post.author.username,
             'image_path': post.image_path
         }
@@ -362,23 +366,22 @@ def get_posts():
     ]
     return jsonify(data)
 
-@app.route('/post/<int:post_id>')
-@login_required
-def view_post(post_id):
-    post = db_session.query(BlogPost).get(post_id)
-    comments = db_session.query(Comment).filter(Comment.post_id == post_id).all()
-    if post:
-        return render_template('new_post.html', post=post, comments=comments)
-    return "Post not found", 404
-
 
 @app.route('/post/<int:post_id>', methods=['GET'])
 def readmore(post_id):
-    # Fetch the post using the new method
-    post = db_session.get(BlogPost, post_id)
-    if post is None:
-        return "Post not found", 404  # Return a custom message if the post doesn't exist
-    return render_template('readmore.html', post=post)
+    post = db_session.query(BlogPost).filter_by(id=post_id).first()
+    
+    if post:
+        return render_template('readmore.html', post=post)
+    else:
+        print("Post not found")  # Debugging line
+        return "Post not found", 404
+
+
+@app.route('/test')
+def test():
+    print("Test route hit!")  # Should print in the terminal
+    return "Test page"
 
 
 

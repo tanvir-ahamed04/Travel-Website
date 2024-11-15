@@ -20,8 +20,7 @@
     <!-- Loading Page -->
 <div class="loading-page" id="loading-page">
   <div class="counter">
-      <h1 id="loading-percentage">0%</h1>
-      <p class="abs">Loading</p>
+      <h2 class="abs">Loading..</h2>
       
       <hr>
   </div>
@@ -183,15 +182,17 @@
       }
   });
 
-  // Simulate loading progress
+
+ 
+    // Simulate loading progress
 let loading = 0;
 const loadingPercentage = document.getElementById('loading-percentage');
 const loadingPage = document.getElementById('loading-page');
 const mainContent = document.getElementById('main-content');
 
 const loadingInterval = setInterval(() => {
-    if (loading < 100) {
-        loading += 25; // Increment loading
+    if (loading < 2) {
+        loading += 1; 
         loadingPercentage.textContent = loading + '%';
     } else {
         clearInterval(loadingInterval);
@@ -199,6 +200,8 @@ const loadingInterval = setInterval(() => {
         mainContent.style.display = 'block'; // Show main content
     }
 }, 500); // Adjust the interval as needed
+
+
   </script>
 </body>
 </html>

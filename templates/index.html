@@ -22,8 +22,8 @@
 <!-- Loading Page -->
 <div class="loading-page" id="loading-page">
   <div class="counter">
-      <h1 id="loading-percentage">0%</h1>
-      <p class="abs">Loading</p>
+      
+      <h2 class="abs">Loading..</h2>
       
       <hr>
   </div>
@@ -287,8 +287,8 @@ const loadingPage = document.getElementById('loading-page');
 const mainContent = document.getElementById('main-content');
 
 const loadingInterval = setInterval(() => {
-    if (loading < 100) {
-        loading += 25; // Increment loading
+    if (loading < 2) {
+        loading += 1; 
         loadingPercentage.textContent = loading + '%';
     } else {
         clearInterval(loadingInterval);
@@ -304,6 +304,6 @@ const loadingInterval = setInterval(() => {
 
 <script src="{{ url_for('static', filename='app.js') }}"></script>
 <script src="{{ url_for('static', filename='script.js') }}"></script>
-<script src="{{ url_for('static', filename='earth.js')}}"></script>
+<script src="{{ url_for('static', filename='Three.js')}}"></script>
 </body>
 </html>

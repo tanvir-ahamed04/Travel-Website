@@ -7,12 +7,14 @@
         <link rel="icon" href="{{ url_for('static', filename= 'img/icon.png') }}" type="image/png">
         <title>Travel Website</title>
         <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+         <!-- Font awesome for fa icons -->
+     <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+     <!-- Including styles.css file -->
 <body>
     <!-- Loading Page -->
 <div class="loading-page" id="loading-page">
     <div class="counter">
-        <h1 id="loading-percentage">0%</h1>
-        <p class="abs">Loading</p>
+        <h2 class="abs">Loading</h2>
         
         <hr>
     </div>
@@ -49,7 +51,19 @@
     <form method="POST" enctype="multipart/form-data" class="post-blog-form" >
         <input type="text" name="title" value="{{ post.title }}" required>
         <textarea name="content" class="post-write-aria" required>{{ post.content }}</textarea>
-        <input type="file" name="img_file">
+       
+        <label for="img_file" class="file-tag-img-in-creat">Image File:</label>
+            <div class="profile-picture">
+                <h1 class="upload-icon">
+                  <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                </h1>
+                <input
+                  class="file-uploader"
+                  type="file"
+                  onchange="upload()"
+                  accept="image/*"
+                  id="img_file" name="img_file"/>
+              </div>
         
         <button class="btn-for-post-creat" type="submit">Update Post</button>
         <button  class="btn-for-post-creat" type="submit" name="delete" value="true">Delete Post</button>
@@ -66,8 +80,8 @@
     const mainContent = document.getElementById('main-content');
     
     const loadingInterval = setInterval(() => {
-        if (loading < 100) {
-            loading += 25; // Increment loading
+        if (loading < 2) {
+            loading += 1; 
             loadingPercentage.textContent = loading + '%';
         } else {
             clearInterval(loadingInterval);
@@ -76,6 +90,7 @@
         }
     }, 500); // Adjust the interval as needed
     </script>
+    
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
