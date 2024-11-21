@@ -1,13 +1,1 @@
-{
-    "params": {
-        "title": "My Blog",                     
-        "admin_user": "your_admin_username",     
-        "admin_password": "your_admin_password",  
-        "gmail-user": "your_email@gmail.com",     
-        "gmail-password": "your_email_password",   
-        "upload_location": "uploads/",            
-        "local_uri": "mysql://root:@localhost/blogpost", 
-        "prod_uri": "mysql://username:password@hostname/database_name",
-        "no_of_posts": 5                           
-    }
-}
+
