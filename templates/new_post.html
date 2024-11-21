@@ -50,11 +50,12 @@
             <div class="post-content">
                 <h2>{{ post.title }}</h2>
                 <p>Written by <span class="logo-highlight">{{ post.author.username }}</span></p>
-                <p class="post-describe">{{ post.content[:700] }}...</p> <!-- Display truncated content -->
+                <p class="post-describe">{{ post.content[:700] }}..</p> <!-- Display truncated content -->
                 <div>
-                    <a href="{{ url_for('readmore', post_id=post.id) }}">Read More</a> <br>
                     <br>
-                    <a href="{{ url_for('edit_post', post_id=post.id) }}">Edit Post</a>
+                    <a class="logo-highlight" href="{{ url_for('readmore', post_id=post.id) }}">Read More</a> <br>
+                    <br>
+                    <a class="logo-highlight" href="{{ url_for('edit_post', post_id=post.id) }}">Edit Post</a>
                 </div>
                 {% if post.image_path %}
                     <img class="post-image" src="{{ url_for('static', filename=post.image_path) }}" alt="Post Image">

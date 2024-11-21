@@ -501,79 +501,58 @@ def add_comment():
             return jsonify({'success': False, 'message': str(e)}), 500
     
     return jsonify({'success': False, 'message': 'Invalid input'}), 400
-
-
-
-
-# forgot and reset pass 
-@app.route('/forgot_password', methods=['POST'])
-def forgot_password():
-    data = request.json
-    email = data.get('email')
-
-    # Check if the email exists in the database
-    user = db_session.query(User).filter_by(email=email).first()
-    if user:
-        generated_otp = str(random.randint(100000, 999999))
-        session['otp'] = generated_otp  # Store OTP in session
-        session['otp_email'] = email    # Store email in session
-
-        msg = Message('Your OTP for password reset', recipients=[email])  
-        msg.body = f'Your OTP is {generated_otp}. Please enter this OTP to reset your password.'
-        
-        try:
-            mail.send(msg)
-            flash('OTP sent successfully! Please check your email.', 'success')
-            return jsonify({'success': True})
-        except Exception as e:
-            print(f"Error sending OTP: {e}")
-            flash('Failed to send OTP. Please try again.', 'danger')
-            return jsonify({'success': False}), 500
-    else:
-        flash('Email not found. Please register.', 'danger')
-        return jsonify({'success': False}), 400
-
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
-    if request.method == 'GET':
-        return render_template('reset_password.html')
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        otp = request.form.get('otp')
 
-    email = request.form.get('email')
-    otp = request.form.get('otp')
-    new_password = request.form.get('new_password')
+        # Check if OTP is provided
+        if otp:
+            # Validate OTP
+            if otp_storage.get(email) == otp:
+                # Hash the new password
+                hashed_password = generate_password_hash(password)
 
-    stored_otp = session.get('otp')
-    stored_email = session.get('otp_email')
-    print(f"Stored OTP in session: {stored_otp}, Provided OTP: {otp}")
+                try:
+                    # Query the user from the database
+                    user = db_session.query(User).filter_by(email=email).first()
 
-    if stored_otp == otp and stored_email == email:
-        hashed_password = generate_password_hash(new_password)
-        user = db_session.query(User).filter_by(email=email).first()
-        if user:
-            user.password = hashed_password
-            try:
-                db_session.commit()
-                session.pop('otp', None)        # Clear OTP from session
-                session.pop('otp_email', None)  # Clear email from session
-                flash('Password reset successfully!', 'success')
-                return redirect(url_for('login'))
-            except Exception as e:
-                db_session.rollback()
-                flash(f'Error updating password: {str(e)}', 'danger')
-                return redirect(url_for('reset_password'))
-        else:
-            flash('User not found.', 'danger')
-            return redirect(url_for('login'))
-    else:
-        flash('Invalid OTP!', 'danger')
-        return redirect(url_for('reset_password'))
+                    if user:
+                        # Update the password for the user
+                        user.password = hashed_password
+                        db_session.commit()  # Commit the changes to the database
 
+                        flash('Password reset successful! Please login with your new password.', 'success')
 
+                        # Remove OTP after successful reset
+                        otp_storage.pop(email, None)
 
+                        return redirect(url_for('login'))  # Redirect to login page after success
+                    else:
+                        flash('User not found.', 'danger')
+                        return redirect(url_for('reset_password'))  # Go back to reset password page
 
+                except Exception as e:
+                    db_session.rollback()  # Rollback any changes in case of error
+                    flash(f'Error updating password: {str(e)}', 'danger')  # Show the actual error message
+                    print(f"Error updating password: {str(e)}")  # Log the error in the server console
+                    return redirect(url_for('reset_password'))  # Go back to reset password page
 
+        # If no OTP, generate and send it
+        generated_otp = str(random.randint(100000, 999999))  # Generate a random 6-digit OTP
+        otp_storage[email] = generated_otp  # Store the OTP for the email
 
+        # Send the OTP via email
+        msg = Message('Your OTP for password reset', recipients=[email])
+        msg.body = f'Your OTP is {generated_otp}. Please enter this OTP to reset your password.'
+        mail.send(msg)
 
+        flash('OTP sent to your email. Please verify to complete the password reset.', 'info')
+        return render_template('reset_password.html', email=email)
+
+    return render_template('reset_password.html')  # Render the reset password page for GET requests
 
 
 if __name__ == '__main__':
