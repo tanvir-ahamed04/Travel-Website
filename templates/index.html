@@ -47,8 +47,9 @@
         <li><a href="{{ url_for('post_blog') }}">Create Blog</a></li>  <!-- Only admins see this link -->
     {% endif %}
     {% if current_user.is_authenticated %}
-        <li><span class="welcome">Hey Welcome, {{ current_user.username }}</span></li>
+        <!-- <li><span class="welcome">Hey Welcome, {{ current_user.username }}</span></li> -->
         <li><a href="{{ url_for('profile') }}">Profile</a></li>
+        <li><a class="logout-btn" href="{{ url_for('logout') }}">Logout</a></li>
     {% else %}
         <li><a href="{{ url_for('register') }}">LogIn/SignUp</a></li>
     {% endif %}

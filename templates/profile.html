@@ -26,35 +26,42 @@
     </div>
   </div>
   
-    <section>
-        <div class="logo profile-logo">
+  <header>
+    <nav>
+        <div class="logo">
             <a href="{{ url_for('index') }}"><span>Ex</span><span class="logo-highlight">plore</span></a>
         </div>
-        <nav>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('about')}}">About</a></li>
+            <li><a href="{{ url_for('destinations')}}">Destinations</a></li>
             
-                <div class="profile-dev-together-two">
-
-                    <div class="profile-nev">
-                        <ul >
-                            <li class="profile-color-place-gap"><a href="{{ url_for('index') }}">Home</a></li>
-                            <li><a href="{{ url_for('about') }}">About</a></li>
-                            <li><a href="{{ url_for('destinations')}}">Destinations</a></li>
-                            <li><a href="{{ url_for('new_post') }}">Posted Blog</a></li>
-                    {% if current_user.is_admin %}
-                        <li><a href="{{ url_for('post_blog') }}">Create Blog</a></li>                       
-                    {% endif %}
-                    {% if current_user.is_authenticated %}
-                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                    {% else %}
-                        <li><a href="{{ url_for('register') }}">LogIn/SignUp</a></li>
-                    {% endif %}
-                        </ul>
+            <li><a href="{{ url_for('new_post') }}">Posted Blog</a></li>
+    {% if current_user.is_admin %}
+        <li><a href="{{ url_for('post_blog') }}">Create Blog</a></li>  <!-- Only admins see this link -->
+    {% endif %}
+    {% if current_user.is_authenticated %}
+    <li><a href="{{ url_for('profile') }}">Profile</a></li>
+    <li><a class="logout-btn" href="{{ url_for('logout') }}">Logout</a></li>
+    {% else %}
+        <li><a href="{{ url_for('register') }}">LogIn/SignUp</a></li>
+    {% endif %}
+        </ul>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+    
+    
+</header>
+    <section class="aria-container-control">
+       
+    <div class="aria-container-control">
+        <div class="middle-profile">
+                        <h1>Hey, Welcome To Your Profile - <span class="welcome">{{ current_user.username }}</span></h1>
+                        <h2>Here you can Update Profile</h2>
                     </div>
-
-
-                    <div class="aria-container-control">
-                        <h1><span class="welcome">Hey, Welcome To Your Profile - {{ current_user.username }}</span></h1>
-                        <h2>Update Profile</h2>
 
 <!-- Change Username Form -->
 <form method="POST" action="{{ url_for('change_username') }}">
@@ -109,5 +116,7 @@ const loadingInterval = setInterval(() => {
     }
 }, 500); // Adjust the interval as needed
 </script>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

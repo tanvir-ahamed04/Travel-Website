@@ -31,8 +31,10 @@
 
 
 
-<section class="page-about">
-        <nav class="about-page-logo-nav">
+<!-- <section class="page-about"> -->
+  <header>
+        <!-- <nav class="about-page-logo-nav"> -->
+          <nav>
             <div class="logo">
                 <a href="{{ url_for('index') }}" class="a-about"><span>Ex</span><span class="logo-highlight">plore</span></a>
             </div>
@@ -47,6 +49,7 @@
         {% endif %}
         {% if current_user.is_authenticated %}
             <li><a href="{{ url_for('profile') }}"class="a-about">Profile</a></li>
+            <li><a  class="logout-btn" href="{{ url_for('logout') }}">Logout</a></li>
         {% else %}
             <li><a href="{{ url_for('register') }}"class="a-about">LogIn/SignUp</a></li>
         {% endif %}
@@ -57,7 +60,8 @@
             </div>
         </nav>
     </dev>
-</section>
+<!-- </section> -->
+</header>
 
 <div class="responsive-container-block">
     
@@ -169,6 +173,116 @@
 </dev>
 
 
+<!---about section ``````````-->
+<section>
+  <div class="responsive-container-block bigContainer">
+      <div class="responsive-container-block Container">
+        <div class="responsive-container-block leftSide">
+          <p class="text-blk heading">
+            About Ex<span class="logo-highlight">plore</span>
+          </p>
+          <p class="text-blk subHeading">
+              Welcome to Ex<span class="logo-highlight">plore</span>, your go-to destination for exploring the world’s most beautiful places. Our mission is to inspire travelers to discover new horizons, experience diverse cultures, and create unforgettable memories. Whether you're planning your next adventure or looking for travel tips, we provide expert guides, captivating stories, and up-to-date information to make your journey extraordinary.<br><br>
+              
+              Join us in exploring the world, one destination at a time!
+          </p>
+        </div>
+        <div class="responsive-container-block rightSide">
+          <img class="number1img" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/ET32.jpg">
+          <img class="number2img" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/d14.png">
+          <img class="number3img" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/b245.png">
+          <img class="number5img" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Customer supports.png">
+          <img class="number7img" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/d51.png">
+          <img class="number6img" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/d12.png">
+        </div>
+      </div>
+    </div>
+</section>
+
+<!-----footer------------>
+
+<footer class="footer">
+  <div class="footer__parralax">
+    <div class="footer__parralax-trees"></div>
+    <div class="footer__parralax-moto"></div>
+    <div class="footer__parralax-secondplan"></div>
+    <div class="footer__parralax-premierplan"></div>
+    <div class="footer__parralax-voiture"></div>
+  </div>
+  <div class="container">
+    <div class="footer__columns">
+      <div class="footer__col">
+        <h3 class="footer__col-title">
+          <i data-feather="shopping-bag"></i> <span>Devoloper</span></h3>
+        <nav class="footer__nav">
+          <ul class="footer__nav-list">
+            <li class="footer__nav-item">
+              <span class="footer__nav-link">
+                Tanvir Ahamed
+              </span>
+            </li>
+            <li class="footer__nav-item">
+              <span class="footer__nav-link">
+                Nanjing Tech University
+              </span>
+            </li>
+            <li class="footer__nav-item">
+              <span class="footer__nav-link">
+                Computer Science
+              <span>
+            </li>
+           
+          </ul>
+        </nav>
+      </div>
+      <div class="footer__col">
+        <h3 class="footer__col-title">
+          <i data-feather="share-2"></i> <span>Social Contact</span></h3>
+        <nav class="footer__nav">
+          <ul class="footer__nav-list">
+            <li class="footer__nav-item">
+              <a href="https://www.facebook.com/tanvir.ahamed04" class="footer__nav-link">
+               Facebook </a>
+                
+              </a>
+            </li>
+            <li class="footer__nav-item">
+              <a href="https://www.instagram.com/tanvir.ahamed02" class="footer__nav-link">
+               Instagram</a>
+                
+              </a>
+            </li>
+
+            <li class="footer__nav-item">
+              <a href="https://github.com/tanvir-ahamed04" class="footer__nav-link">
+               Git-hub</a>
+                
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer__col">
+        <h3 class="footer__col-title">
+          <i data-feather="send"></i> <span>Contact</span></h3>
+        <nav class="footer__nav">
+          <ul class="footer__nav-list">
+            <li class="footer__nav-item">
+              <a href="mailto:tanvirahamed86669@gmail.com" class="footer__nav-link">
+                tanvirahamed86669@gmail.com
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+      <div class="footer__copyrights">
+        <p>Copy Right <a href="https://github.com/tanvir-ahamed04" target="_blank">@Tanvir Ahamed(Git-hub)</a></p>
+      </div>
+  </div>
+</footer>
+
+
 
 
 <script id="header">
@@ -203,5 +317,7 @@ const loadingInterval = setInterval(() => {
 
 
   </script>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

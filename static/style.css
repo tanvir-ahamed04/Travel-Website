@@ -506,6 +506,40 @@ button:focus {
 .create-blog{
   margin-top: 150px;
 }
+.btn-in-blog-flex{
+  display: flex;
+  justify-content: space-between;
+}
+.in-blog-page-btn-edit-read{
+  background-color: #ff6347;
+  color: #fff;
+  padding: 10px;
+  padding-left: 20px;
+  width: 120px;
+  height: auto;
+  border-radius: 5px;
+}
+.in-blog-page-btn-edit-read:hover{
+  background-color: #ff6347;
+  color: #fff;
+  padding: 10px;
+  padding-left: 20px;
+  width: 120px;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.logout-btn{
+  background-color: #d9d9d9;
+  color: #fff;
+  padding: 10px;
+  padding-left: 20px;
+  width: auto;
+  height: auto;
+  border-radius: 5px;
+ gap: 5px;
+}
+
 
 
 
@@ -918,11 +952,15 @@ button:focus {
   color: #000000;
 }
 .aria-container-control{
-  color: #000000;
-  width: 1000px;
-  height: 1000px;
-  background-color: #ddd;
+  margin-top: 50px;
   padding: 40px;
+}
+.middle-profile{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .aria-container-control form input{
   width: 100%;
