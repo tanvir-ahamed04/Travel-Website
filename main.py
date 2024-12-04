@@ -14,8 +14,8 @@ from flask import jsonify
 import logging
 from flask import session
 from sqlalchemy import select
-import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning)
+# import warnings
+# warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
 
