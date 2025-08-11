@@ -109,11 +109,10 @@ Project-travel-guide/
 │   └── Script.js         # JavaScript file for navigation, typing effect, etc.
 │
 └── .env                  # Environment variables (not included in repo for security)
-
+```
 ## License
 
 This project is licensed under the MIT License.
 
 ---
-
 This README provides a comprehensive guide for anyone who wants to understand, install, and run the travel guide web application on their local machine.
